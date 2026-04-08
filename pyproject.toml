@@ -8,5 +8,14 @@ dependencies = [
     "datasets>=4.8.4",
     "httpx>=0.28.1",
     "openai>=2.30.0",
+    "tau2",
     "vllm>=0.19.0",
 ]
+
+[tool.uv.workspace]
+members = [
+    "benchmarks/tau2_bench/repo",
+]
+
+[tool.uv.sources]
+tau2 = { workspace = true }
