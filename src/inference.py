@@ -38,6 +38,8 @@ class InferenceClient:
             model = models.data[0].id
             print(f"No model specified. Using first available from server: {model}")
 
+        print(f"Activated model: {model}")
+
         response = self.client.chat.completions.create(
             model=model,
             messages=messages,

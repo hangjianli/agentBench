@@ -58,6 +58,12 @@ uv sync
 ```
 Ensure your `.env` file is configured with your local LM Studio endpoint and token.
 
+**Verify Infrastructure:**
+Run a smoke test to ensure LM Studio is running and the default model is responsive:
+```bash
+uv run python src/inference.py
+```
+
 ### 2. Run GAIA Evaluation
 GAIA tasks are executed using a custom ReAct agent with Docker-based Python code execution.
 ```bash
@@ -86,7 +92,17 @@ cd benchmarks/tau2_bench/repo && uv run tau2 run \
   --num-tasks 3 \
   --max-steps 200 \
   --verbose-logs
+  
+# Run a specific number of tasks on a specific domain (default: airline)
+uv run python -m benchmarks.tau2_bench.evaluate --num-tasks 3 --domain airline --concurrency 1
+
+# Run specific task IDs (e.g., tasks 7, 8, 9, 10)
+uv run python -m benchmarks.tau2_bench.evaluate --domain airline --task-ids 7 8 9 10 --concurrency 1
 ```
+
+**Configuration:**
+- **.env:** You can set `TAU2_MAX_CONCURRENCY=1` in your `.env` file to control the default concurrency.
+- **CLI Override:** Use the `--concurrency` flag to override the `.env` setting.
 
 **Available Domains:**
 - `airline`: Flight booking, cancellation, and customer support.
