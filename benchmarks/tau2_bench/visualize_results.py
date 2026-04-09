@@ -14,7 +14,12 @@ def generate_html(json_path):
     
     simulations = data.get("simulations", [])
     total_sims = len(simulations)
-    avg_reward = sum(sim.get("reward_info", {}).get("reward", 0.0) for sim in simulations) / total_sims if total_sims > 0 else 0.0
+    avg_reward = (
+        sum((sim.get("reward_info") or {}).get("reward", 0.0) for sim in simulations)
+        / total_sims
+        if total_sims > 0
+        else 0.0
+    )
 
     html = f"""
     <!DOCTYPE html>
@@ -62,7 +67,8 @@ def generate_html(json_path):
     """
 
     for sim in simulations:
-        reward = sim.get("reward_info", {}).get("reward", 0.0)
+        reward_info = sim.get("reward_info") or {}
+        reward = reward_info.get("reward", 0.0)
         reward_class = "reward-success" if reward >= 1.0 else "reward-failure"
         task_id = sim.get("task_id", "N/A")
         
@@ -73,7 +79,7 @@ def generate_html(json_path):
                 <strong>NL Assertions:</strong>
         """
         
-        for assertion in sim.get("reward_info", {}).get("nl_assertions", []):
+        for assertion in reward_info.get("nl_assertions") or []:
             status = "✅" if assertion.get("met") else "❌"
             html += f"""
                 <div class="nl-assertion-item">
