@@ -8,7 +8,10 @@ load_dotenv()
 # Configuration
 os.environ["OPENAI_API_KEY"] = os.getenv("LMSTUDIO_TOKEN", "lm-studio")
 os.environ["OPENAI_API_BASE"] = os.getenv("LMSTUDIO_BASE_URL", "http://localhost:1234/v1")
-model_name = os.getenv("LMSTUDIO_MODEL", "google/gemma-4-26b-a4b")
+model_name = os.getenv(
+    "AGENT_BACKBONE_MODEL",
+    os.getenv("LMSTUDIO_MODEL", "google/gemma-4-26b-a4b"),
+)
 litellm_model = f"openai/{model_name}"
 
 def test_inference_params(params: dict, label: str):

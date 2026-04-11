@@ -20,7 +20,10 @@ def evaluate_tau2(num_tasks: int = 0, domain: str = "airline", concurrency: int 
         # Some versions of the tau2 code check specifically for this if using openai_embeddings
         os.environ["EMBEDDING_MODEL"] = embedding_model
 
-    model_name = os.getenv("LMSTUDIO_MODEL", "google/gemma-4-26b-a4b")
+    model_name = os.getenv(
+        "AGENT_BACKBONE_MODEL",
+        os.getenv("LMSTUDIO_MODEL", "google/gemma-4-26b-a4b"),
+    )
 
     # Get concurrency from argument, env, or default to 1
     max_concurrency = concurrency or int(os.getenv("TAU2_MAX_CONCURRENCY", "1"))
@@ -110,4 +113,3 @@ if __name__ == "__main__":
         embedding_model=args.embedding_model,
         task_split_name=args.task_split_name
     )
-

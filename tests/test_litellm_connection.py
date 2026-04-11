@@ -7,7 +7,10 @@ def test_connection():
     
     api_key = os.getenv("LMSTUDIO_TOKEN", "lm-studio")
     api_base = os.getenv("LMSTUDIO_BASE_URL", "http://localhost:1234/v1")
-    model = os.getenv("LMSTUDIO_MODEL", "google/gemma-4-26b-a4b")
+    model = os.getenv(
+        "AGENT_BACKBONE_MODEL",
+        os.getenv("LMSTUDIO_MODEL", "google/gemma-4-26b-a4b"),
+    )
     
     print(f"Testing litellm connection...")
     print(f"Model: openai/{model}")

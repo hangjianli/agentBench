@@ -26,10 +26,10 @@ class InferenceClient:
     ) -> str:
         """
         Sends a chat completion request to the inference server.
-        Model precedence: Argument > .env (LMSTUDIO_MODEL) > First available from server.
+        Model precedence: Argument > .env (AGENT_BACKBONE_MODEL) > First available from server.
         """
         if model is None:
-            model = os.getenv("LMSTUDIO_MODEL")
+            model = os.getenv("AGENT_BACKBONE_MODEL") or os.getenv("LMSTUDIO_MODEL")
             
         if model is None:
             models = self.client.models.list()
